@@ -58,7 +58,7 @@ const router2 = createBrowserRouter([
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route
-      path="react-router-todo/"
+      path="/"
       element={<Root />}
       loader={rootLoader}
       action={rootAction}

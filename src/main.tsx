@@ -7,23 +7,32 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import "./index.css";
-import Root, {
-  loader as rootLoader,
-  action as rootAction,
-} from "./routes/root";
+import { loader as rootLoader, action as rootAction } from "./routes/root";
 import ErrorPage from "./error-page";
-import Todo, {
-  loader as todoLoader,
-  action as todoAction,
-} from "./routes/todo";
-import EditTodo, { action as editAction } from "./routes/edit";
+import { loader as todoLoader, action as todoAction } from "./routes/todo";
+import { action as editAction } from "./routes/edit";
 import { action as destroyAction } from "./routes/destroy";
 import Index from "./routes/index";
+
+const Root = React.lazy(() => import("./routes/root"));
+const Todo = React.lazy(() => import("./routes/todo"));
+const EditTodo = React.lazy(() => import("./routes/edit"));
 
 const router2 = createBrowserRouter([
   {
     path: "/",
-    element: <Root />,
+    // element: <Root />,
+    element: (
+      <React.Suspense
+        fallback={
+          <p>
+            <i>Loading...</i>
+          </p>
+        }
+      >
+        <Root />
+      </React.Suspense>
+    ),
     errorElement: <ErrorPage />,
     loader: rootLoader,
     action: rootAction,
@@ -34,13 +43,35 @@ const router2 = createBrowserRouter([
           { index: true, element: <Index /> },
           {
             path: "todos/:todoId",
-            element: <Todo />,
+            // element: <Todo />,
+            element: (
+              <React.Suspense
+                fallback={
+                  <p>
+                    <i>Loading...</i>
+                  </p>
+                }
+              >
+                <Todo />
+              </React.Suspense>
+            ),
             loader: todoLoader,
             action: todoAction,
           },
           {
             path: "todos/:todoId/edit",
-            element: <EditTodo />,
+            // element: <EditTodo />,
+            element: (
+              <React.Suspense
+                fallback={
+                  <p>
+                    <i>Loading...</i>
+                  </p>
+                }
+              >
+                <EditTodo />
+              </React.Suspense>
+            ),
             loader: todoLoader,
             action: editAction,
           },
@@ -59,7 +90,18 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route
       path="/"
-      element={<Root />}
+      // element={<Root />}
+      element={
+        <React.Suspense
+          fallback={
+            <p>
+              <i>Loading...</i>
+            </p>
+          }
+        >
+          <Root />
+        </React.Suspense>
+      }
       loader={rootLoader}
       action={rootAction}
       errorElement={<ErrorPage />}
@@ -68,13 +110,35 @@ const router = createBrowserRouter(
         <Route index element={<Index />} />
         <Route
           path="todos/:todoId"
-          element={<Todo />}
+          // element={<Todo />}
+          element={
+            <React.Suspense
+              fallback={
+                <p>
+                  <i>Loading...</i>
+                </p>
+              }
+            >
+              <Todo />
+            </React.Suspense>
+          }
           loader={todoLoader}
-          action={todoAction}
+          // action={todoAction}
         />
         <Route
           path="todos/:todoId/edit"
-          element={<EditTodo />}
+          // element={<EditTodo />}
+          element={
+            <React.Suspense
+              fallback={
+                <p>
+                  <i>Loading...</i>
+                </p>
+              }
+            >
+              <EditTodo />
+            </React.Suspense>
+          }
           loader={todoLoader}
           action={editAction}
         />
